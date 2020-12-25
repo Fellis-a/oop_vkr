@@ -46,8 +46,7 @@ public class UserFormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         cmbUserType.setItems(FXCollections.observableArrayList(
                 ADMIN,
-                TEACHER,
-                USER
+                TEACHER
         ));
 
         cmbUserType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

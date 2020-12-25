@@ -3,6 +3,7 @@ package sample.GUI;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,12 +28,13 @@ public class MainFormController implements Initializable {
 
     public TableView<User> mainTable;
     public ComboBox cmbUserType;
+    public ChoiceBox choiceBox;
+    public TextField textField;
 
     ObservableList<Class<? extends User>> UserTypes = FXCollections.observableArrayList(
             User.class,
             Admin.class,
-            Teacher.class,
-            MainUser.class
+            Teacher.class
     );
 
     UsersModel userModel = new UsersModel();
@@ -40,14 +42,14 @@ public class MainFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        userModel.addDataChangedListener(gadgets -> {
-            mainTable.setItems(FXCollections.observableArrayList(gadgets));
+        userModel.addDataChangedListener(users -> {
+            mainTable.setItems(FXCollections.observableArrayList(users));
         });
 
 
         TableColumn<User, String> titleColumn = new TableColumn<>("Название");
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-
+        titleColumn.setMinWidth(150);
 
         TableColumn<User, String> yearColumn = new TableColumn<>("Год защиты");
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
@@ -66,9 +68,16 @@ public class MainFormController implements Initializable {
         descriptionColumn.setCellValueFactory(cellData -> {
             return new SimpleStringProperty(cellData.getValue().getDescription());
         });
+        descriptionColumn.setMinWidth(200);
 
+        TableColumn<User, String> dateColumn = new TableColumn<>("Дата добавления");
+        dateColumn.setCellValueFactory(cellData -> {
+            return new SimpleStringProperty(cellData.getValue().date());
+        });
 
-        mainTable.getColumns().addAll(titleColumn, groupColumn,yearColumn, markColumn, descriptionColumn );
+        descriptionColumn.setMinWidth(100);
+
+        mainTable.getColumns().addAll(titleColumn, groupColumn,yearColumn, markColumn, descriptionColumn, dateColumn );
 
         cmbUserType.setItems(UserTypes);
 
@@ -83,8 +92,6 @@ public class MainFormController implements Initializable {
                     return "Администратор";
                 } else if (Teacher.class.equals(object)) {
                     return "Преподаватель";
-                } else if (MainUser.class.equals(object)) {
-                    return "Пользователь";
                 }
                 return null;
             }
@@ -101,6 +108,8 @@ public class MainFormController implements Initializable {
         });
 
         //mainTable.getItems().stream().filter(item -> item.getId()==searchId).findAny()
+
+
 
 
     }
@@ -175,4 +184,40 @@ public class MainFormController implements Initializable {
             userModel.loadFromFile(file.getPath());
         }
     }
+
+    /*
+
+    public void findSmth(ActionEvent actionEvent) {
+        FilteredList<User> flUser = new FilteredList(UserTypes, p -> true);//Pass the data to a filtered list
+        mainTable.setItems(flUser);//Set the table's items using the filtered list
+
+        choiceBox.getItems().addAll("Название", "Год защиты", "Оценка");
+        choiceBox.setValue("Название");
+
+        textField.setPromptText("Search here!");
+        textField.setOnKeyReleased(keyEvent ->
+        {
+            Object value = choiceBox.getValue();//Switch on choiceBox value
+            if ("Название ВКР".equals(value)) {
+                flUser.setPredicate(p -> p.getTitle().toLowerCase().contains(textField.getText().toLowerCase().trim()));//filter table by first name
+            } else if ("Год защиты".equals(value)) {
+                flUser.setPredicate(p -> p.getYearString().toLowerCase().contains(textField.getText().trim()));//filter table by first name
+            } else if ("Оценка".equals(value)) {
+                flUser.setPredicate(p -> p.getMarkString().toLowerCase().contains(textField.getText().toLowerCase().trim()));//filter table by first name
+            }
+        });
+
+        choiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) ->
+        {//reset table and textfield when new choice is selected
+            if (newVal != null)
+            {
+                textField.setText("");
+                flUser.setPredicate(null);//This is same as saying flPerson.setPredicate(p->true);
+            }
+        });
+
+
+    }
+
+     */
 }
