@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -28,8 +27,8 @@ public class MainFormController implements Initializable {
 
     public TableView<User> mainTable;
     public ComboBox cmbUserType;
-    public ChoiceBox choiceBox;
     public TextField textField;
+    public String searchValue ;
 
     ObservableList<Class<? extends User>> UserTypes = FXCollections.observableArrayList(
             User.class,
@@ -110,6 +109,9 @@ public class MainFormController implements Initializable {
         //mainTable.getItems().stream().filter(item -> item.getId()==searchId).findAny()
 
 
+        textField.setPromptText("Search here!");
+        searchValue = textField.getText();
+
 
 
     }
@@ -158,7 +160,7 @@ public class MainFormController implements Initializable {
 
         Optional<ButtonType> option = alert.showAndWait();
         if (option.get() == ButtonType.OK) {
-            userModel.delete(gadget.id);
+            userModel.delete(gadget.getId());
         }
     }
     public void onSaveToFileClick(ActionEvent actionEvent) {
@@ -185,39 +187,17 @@ public class MainFormController implements Initializable {
         }
     }
 
-    /*
 
-    public void findSmth(ActionEvent actionEvent) {
-        FilteredList<User> flUser = new FilteredList(UserTypes, p -> true);//Pass the data to a filtered list
-        mainTable.setItems(flUser);//Set the table's items using the filtered list
+    public void filter(ActionEvent actionEvent) throws IOException {
 
-        choiceBox.getItems().addAll("Название", "Год защиты", "Оценка");
-        choiceBox.setValue("Название");
-
-        textField.setPromptText("Search here!");
-        textField.setOnKeyReleased(keyEvent ->
-        {
-            Object value = choiceBox.getValue();//Switch on choiceBox value
-            if ("Название ВКР".equals(value)) {
-                flUser.setPredicate(p -> p.getTitle().toLowerCase().contains(textField.getText().toLowerCase().trim()));//filter table by first name
-            } else if ("Год защиты".equals(value)) {
-                flUser.setPredicate(p -> p.getYearString().toLowerCase().contains(textField.getText().trim()));//filter table by first name
-            } else if ("Оценка".equals(value)) {
-                flUser.setPredicate(p -> p.getMarkString().toLowerCase().contains(textField.getText().toLowerCase().trim()));//filter table by first name
-            }
-        });
-
-        choiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) ->
-        {//reset table and textfield when new choice is selected
-            if (newVal != null)
-            {
-                textField.setText("");
-                flUser.setPredicate(null);//This is same as saying flPerson.setPredicate(p->true);
-            }
-        });
-
+        mainTable.getItems().stream()
+                .filter(item -> item.getTitle().contentEquals(searchValue))
+                .findAny()
+                .ifPresent(item -> {
+                    mainTable.getSelectionModel().select(item);
+                    mainTable.scrollTo(item);
+                });
 
     }
 
-     */
 }

@@ -1,0 +1,45 @@
+[ {
+  "@class" : "sample.models.Admin",
+  "id" : 1,
+  "group" : "ist",
+  "title" : "Создание приложения с БД",
+  "year" : 2015,
+  "mark" : 5,
+  "fio" : "Ивано Иван Иванович",
+  "tag" : "БД",
+  "tagDescription" : "MySql",
+  "yearString" : "2015",
+  "markString" : "5"
+}, {
+  "@class" : "sample.models.Teacher",
+  "id" : 2,
+  "group" : "ist",
+  "title" : "Создание нейросети",
+  "year" : 2017,
+  "mark" : 4,
+  "isEssay" : true,
+  "yearString" : "2017",
+  "markString" : "4"
+}, {
+  "@class" : "sample.models.Admin",
+  "id" : 3,
+  "group" : "ibb",
+  "title" : "Проектный подход",
+  "year" : 2015,
+  "mark" : 5,
+  "fio" : "Ли Анастасия",
+  "tag" : "Проект",
+  "tagDescription" : "",
+  "yearString" : "2015",
+  "markString" : "5"
+}, {
+  "@class" : "sample.models.Teacher",
+  "id" : 4,
+  "group" : "asu",
+  "title" : "Веб-приложение",
+  "year" : 2014,
+  "mark" : 5,
+  "isEssay" : false,
+  "yearString" : "2014",
+  "markString" : "5"
+} ]

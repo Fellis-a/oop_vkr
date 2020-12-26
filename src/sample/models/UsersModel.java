@@ -31,7 +31,7 @@ public class UsersModel {
 
 
     public void add(User user, boolean emit) {
-        user.id = counter;
+        user.setId(counter);
         counter += 1;
 
         this.userList.add(user);
@@ -49,7 +49,7 @@ public class UsersModel {
         for (DataChangedListener listener : dataChangedListeners) {
             ArrayList<User> filteredList = new ArrayList<>(
                     userList.stream()
-                            .filter(food -> userFilter.isInstance(food))
+                            .filter(user -> userFilter.isInstance(user))
                             .collect(Collectors.toList())
             );
             listener.dataChanged(filteredList);
@@ -60,7 +60,7 @@ public class UsersModel {
 
         for (int i = 0; i< this.userList.size(); ++i) {
 
-            if (this.userList.get(i).id == user.id) {
+            if (this.userList.get(i).getId() == user.getId()) {
 
                 this.userList.set(i, user);
                 break;
@@ -73,7 +73,7 @@ public class UsersModel {
     {
         for (int i = 0; i< this.userList.size(); ++i) {
 
-            if (this.userList.get(i).id == id) {
+            if (this.userList.get(i).getId() == id) {
                 this.userList.remove(i);
                 break;
             }
@@ -100,7 +100,7 @@ public class UsersModel {
                     .readValue(reader);
 
             this.counter = userList.stream()
-                    .map(user -> user.id)
+                    .map(user -> user.getId())
                     .max(Integer::compareTo)
                     .orElse(0) + 1;
         } catch (IOException e) {

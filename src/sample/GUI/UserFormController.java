@@ -118,7 +118,7 @@ public class UserFormController implements Initializable {
     public void onSaveClick(ActionEvent actionEvent) {
         if (this.id != null) {
             User user = getUser();
-            user.id = this.id;
+            user.setId(this.id);
 
             this.userModel.edit(user);
         } else {
@@ -162,16 +162,13 @@ public class UserFormController implements Initializable {
                     (User.Group) this.cmbGroup.getValue(),
                     this.chkEssay.isSelected()
                     );
-        } else if (TEACHER.equals(value)) {
-            result = new MainUser( this.txtFio.getText(),title,year, mark,(User.Group)cmbGroup.getValue(), this.chkEssay.isSelected(), this.txtTag.getText());
-
         }
         return result;
     }
     public void setUser(User user) {
 
         this.cmbUserType.setDisable(user != null);
-        this.id = user != null ? user.id : null;
+        this.id = user != null ? user.getId() : null;
         if (user != null) {
             this.txtYear.setText(String.valueOf(user.getYear()));
             this.txtMark.setText(String.valueOf(user.getMark()));
@@ -187,10 +184,6 @@ public class UserFormController implements Initializable {
                 this.cmbUserType.setValue(TEACHER);
                 this.chkEssay.setSelected(((Teacher) user).isEssay);
 
-            } else if (user instanceof MainUser) {
-                this.cmbUserType.setValue(USER);
-                this.chkEssay.setSelected(((MainUser) user).isEssay());
-                this.txtTag.setText(((MainUser) user).getTag());
             }
         }
     }

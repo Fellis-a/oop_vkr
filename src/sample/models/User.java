@@ -11,7 +11,8 @@ import java.util.Date;
 @JsonIgnoreProperties({"description"})
 @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include= JsonTypeInfo.As.PROPERTY, property="@class")
 public class User {
-    public Integer id = null;
+    private Integer id = null;
+
 
     public enum Group {ist, asu, evm, ibb}
     private Group group;
@@ -65,6 +66,14 @@ public class User {
     public String getMarkString() {
         return String.valueOf(mark); }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 
     public void setMark(int mark) {
         this.mark = mark;
@@ -72,7 +81,8 @@ public class User {
 
     public String date(){
         Date date = new Date();
-        return sdf.format(date);
+        String currentDate = sdf.format(date);
+        return currentDate;
     }
 
 
