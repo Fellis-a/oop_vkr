@@ -1,0 +1,23 @@
+[ {
+  "@class" : "sample.models.Admin",
+  "id" : 1,
+  "group" : "ist",
+  "title" : "dfgh",
+  "year" : 1010,
+  "mark" : 5,
+  "fio" : "fghj",
+  "tag" : "sdjk",
+  "tagDescription" : "hjdbj",
+  "markString" : "5",
+  "yearString" : "1010"
+}, {
+  "@class" : "sample.models.Teacher",
+  "id" : 2,
+  "group" : "asu",
+  "title" : "dfghj",
+  "year" : 2727,
+  "mark" : 5,
+  "isEssay" : true,
+  "markString" : "5",
+  "yearString" : "2727"
+} ]
